@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raven-muse-control"
+version = "1.7.0"
+description = "Hands-free phone music controls for Raven Prism"
+requires-python = ">=3.11,<3.14"
+dependencies = ["bleak==0.22.3", "requests>=2.32.4,<3", "Pillow>=12.1.1,<13", "numpy>=1.26,<3", "scipy>=1.14,<2", "qrcode>=8,<9", "cryptography>=46,<48"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "pytest-qt==4.5.0"]
+voice = ["vosk==0.3.45"]
+
+[tool.setuptools.packages.find]
+include = ["muse*"]
+
+[tool.setuptools.package-data]
+muse = ["demo_catalog/*.json", "demo_catalog/*.lrc", "demo_catalog/*.wav", "demo_catalog/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+qt_api = "pyside6"
+markers = ["sdk: requires separately authorized Raven Framework and Qt"]

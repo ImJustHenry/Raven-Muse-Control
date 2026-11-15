@@ -1,0 +1,48 @@
+name: Raven-Muse-Control validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  desktop:
+    if: vars.RAVEN_SDK_AUTHORIZED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install desktop graphics runtime
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libxkbcommon0
+      - name: Authorized SDK installation
+        # Run this job only after you have permission to use the proprietary Raven Framework.
+        run: |
+          git clone https://github.com/RavenResonance/raven-framework.git /tmp/raven-sdk
+          git -C /tmp/raven-sdk checkout b0efac742ed0ec6c9e76e1c52868ebd39afd531f
+          pip install -e /tmp/raven-sdk
+          pip install -e '.[test]'
+      - run: python -m compileall -q main.py muse tools tests
+      - run: QT_QPA_PLATFORM=offscreen RMC_TEST_SDK=1 python -m pytest -q
+      - run: QT_QPA_PLATFORM=offscreen python -m tools.sdk_smoke
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-simulator-evidence
+          path: test-output/
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - run: gradle -p android --no-daemon testDebugUnitTest assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk

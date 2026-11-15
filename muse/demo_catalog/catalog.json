@@ -1,0 +1,32 @@
+[
+  {
+    "id": "paper-lanterns",
+    "title": "Paper Lanterns",
+    "artist": "Muse Demo Ensemble",
+    "duration": 36,
+    "rights": "Original project verse and procedural backing; synthetic speech generated with Flite. Demo assets may be used with this project.",
+    "lrc": "paper-lanterns.lrc",
+    "audio": "paper-lanterns.wav",
+    "demo": true
+  },
+  {
+    "id": "small-signals",
+    "title": "Small Signals",
+    "artist": "Muse Demo Ensemble",
+    "duration": 36,
+    "rights": "Original project verse and procedural backing; synthetic speech generated with Flite. Demo assets may be used with this project.",
+    "lrc": "small-signals.lrc",
+    "audio": "small-signals.wav",
+    "demo": true
+  },
+  {
+    "id": "open-window",
+    "title": "Open Window",
+    "artist": "Muse Demo Ensemble",
+    "duration": 36,
+    "rights": "Original project verse and procedural backing; synthetic speech generated with Flite. Demo assets may be used with this project.",
+    "lrc": "open-window.lrc",
+    "audio": "open-window.wav",
+    "demo": true
+  }
+]
